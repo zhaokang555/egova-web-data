@@ -1,0 +1,11 @@
+{
+    "extends": "tslint-config-flagwind",
+    "rules": {
+        "whitespace": false,
+        "quotemark": false,
+        "no-trailing-whitespace": false,
+        "no-empty": false,
+        "trailing-comma": false,
+        "align": false
+    }
+}
