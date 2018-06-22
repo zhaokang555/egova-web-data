@@ -1,12 +1,23 @@
 .monitoring-page {
-    & > canvas {
+    & > canvas, & > div {
         position: absolute;
+        border: 1px solid red;
+    }
+    #dom-layer {
+        z-index: 4;
+        .panel {
+            background-color: #fff4c2;
+            width: 2rem;
+            height: 1rem;
+        }
+    }
+    #panel-layer {
+        z-index: 3;
     }
     #arrow-layer {
-        z-index: 4;
+        z-index: 2;
     }
     #bg-layer {
         z-index: 1;
-        border: 1px solid red;
     }
 }

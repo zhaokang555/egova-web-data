@@ -37,17 +37,4 @@ export default class Point {
     public moveY(y) {
         return this.to(this.x, this.y + y);
     }
-
-    public repeatLine() {
-        // let p1 = {x: 165, y: 142};
-        // let tween1 = new TWEEN.Tween(p1).to({x: 226, y: 142}, 3333);
-        // let tween2 = new TWEEN.Tween(p1).to({x: 226, y: 63}, 3333);
-        // tween1.chain(tween2).start();
-        // tween2.onComplete(() => {
-        //     console.log("==");
-        //     p1.x = 165;
-        //     p1.y = 142;
-        //     tween1.start();
-        // });
-    }
 }

@@ -8,41 +8,43 @@ import {
     drawPanelWithWarning,
     drawPanel,
     drawText,
-    drawPoint
+    drawPoint, drawPolylineArrow
 } from "./canvas-utils";
 import {createRunningPointsAlongPath} from "views/monitoring/points-utils";
 import {loadImages} from "views/monitoring/image-utils";
 
-type Context = CanvasRenderingContext2D;
+const haikangOut = {x: 180, y: 142};
+const notCollectYetIn = {x: 212, y: 75};
 
 @component({
     template: require("./index.html")
 })
 export default class Monitoring extends View {
     private async mounted() {
-        let arrowLayer = document.getElementById("arrow-layer") as HTMLCanvasElement;
-        let panelLayer = document.getElementById("panel-layer")as HTMLCanvasElement;
-        let bgLayer = document.getElementById("bg-layer")as HTMLCanvasElement;
+        const arrowLayer = document.getElementById("arrow-layer") as HTMLCanvasElement;
+        const panelLayer = document.getElementById("panel-layer")as HTMLCanvasElement;
+        const bgLayer = document.getElementById("bg-layer")as HTMLCanvasElement;
 
         this.renderBg(bgLayer);
         this.renderPanels(panelLayer);
 
-        let animate = () => {
+        const render = () => {
             this.renderArrows(arrowLayer);
-            TWEEN.update();
-            requestAnimationFrame(animate);
+            // 如果使用了tween.js再打开
+            // TWEEN.update();
+            requestAnimationFrame(render);
         };
-        animate();
+        render();
     }
 
     private async renderBg(canvas: HTMLCanvasElement) {
-        let [imgHaikang, imgServer, imgFirewall, imgPlatform] = await loadImages([
+        const [imgHaikang, imgServer, imgFirewall, imgPlatform] = await loadImages([
             require("src/assets/images/monitoring/haikang.png"),
             require("src/assets/images/monitoring/server.png"),
             require("src/assets/images/monitoring/firewall.png"),
             require("src/assets/images/monitoring/platform.png"),
         ]);
-        let ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
         ctx.save();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(imgHaikang, 28, 117);
@@ -59,7 +61,7 @@ export default class Monitoring extends View {
     }
 
     private renderPanels(canvas: HTMLCanvasElement) {
-        let ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
         ctx.save();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawPanelWithWarning(ctx, 174, 14, "尚未采集", 100000, "当前采集数据积压过多");
@@ -73,34 +75,36 @@ export default class Monitoring extends View {
     }
 
     private renderArrows(canvas: HTMLCanvasElement) {
-        let ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
         ctx.save();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        drawArrow2(ctx, 180, 142, 280, 142);
-        drawArrow2(ctx, 360, 142, 460, 142);
-        drawArrow2(ctx, 545, 142, 660, 142);
-        drawArrow2(ctx, 730, 142, 845, 142);
+        // drawArrow2(ctx, 180, 142, 280, 142, 2000);
+        drawArrow2(ctx, 360, 142, 460, 142, 2000);
+        drawArrow2(ctx, 545, 142, 660, 142, 2000);
+        drawArrow2(ctx, 730, 142, 845, 142, 2000);
 
-        drawArrow2(ctx, 212, 130, 212, 75);
-        drawArrow2(ctx, 235+3, 75, 235+3, 130);
-        drawArrow2(ctx, 395-3, 130, 395-3, 75);
-        drawArrow2(ctx, 415+3, 75, 415+3, 130);
-        drawArrow2(ctx, 765-3, 130, 765-3, 75);
-        drawArrow2(ctx, 785+3, 75, 785+3, 130);
+        // drawArrow2(ctx, 212, 130, 212, 75, 2000);
+        // drawArrow2(ctx, 232, 75, 232, 130, 2000);
+        drawArrow2(ctx, 392, 130, 392, 75, 2000);
+        drawArrow2(ctx, 418, 75, 418, 130, 2000);
+        drawArrow2(ctx, 762, 130, 762, 75, 2000);
+        drawArrow2(ctx, 788, 75, 788, 130, 2000);
+        drawPolylineArrow(ctx, "M180 142 L212 142 L212 75",180, 142, 212, 75, 3/2*Math.PI);
+        // drawPolylineArrow(ctx, "M232 75 L232 130 L280 142");
         ctx.restore();
     }
 
     private renderPoints(canvas: HTMLCanvasElement) {
-        let ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
         ctx.save();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let points1 = createRunningPointsAlongPath(12, [{x: 120, y: 140}, {x: 90,  y: 0},  {x: 0,  y: -80}]);
-        let points2 = createRunningPointsAlongPath(8,  [{x: 235, y: 60},  {x: 0,   y: 80}, {x: 75, y: 0}]);
-        let points3 = createRunningPointsAlongPath(12, [{x: 335, y: 140}, {x: 55,  y: 0},  {x: 0,  y: -80}]);
-        let points4 = createRunningPointsAlongPath(8,  [{x: 417, y: 60},  {x: 0,   y: 80}, {x: 80, y: 0}]);
-        let points5 = createRunningPointsAlongPath(12, [{x: 515, y: 140}, {x: 170, y: 0}]);
-        let points6 = createRunningPointsAlongPath(12, [{x: 710, y: 140}, {x: 50,  y: 0},  {x: 0,  y: -80}]);
-        let points7 = createRunningPointsAlongPath(8,  [{x: 787, y: 60},  {x: 0,   y: 80}, {x: 90, y: 0}]);
+        const points1 = createRunningPointsAlongPath(12, [{x: 120, y: 140}, {x: 90,  y: 0},  {x: 0,  y: -80}]);
+        const points2 = createRunningPointsAlongPath(8,  [{x: 235, y: 60},  {x: 0,   y: 80}, {x: 75, y: 0}]);
+        const points3 = createRunningPointsAlongPath(12, [{x: 335, y: 140}, {x: 55,  y: 0},  {x: 0,  y: -80}]);
+        const points4 = createRunningPointsAlongPath(8,  [{x: 417, y: 60},  {x: 0,   y: 80}, {x: 80, y: 0}]);
+        const points5 = createRunningPointsAlongPath(12, [{x: 515, y: 140}, {x: 170, y: 0}]);
+        const points6 = createRunningPointsAlongPath(12, [{x: 710, y: 140}, {x: 50,  y: 0},  {x: 0,  y: -80}]);
+        const points7 = createRunningPointsAlongPath(8,  [{x: 787, y: 60},  {x: 0,   y: 80}, {x: 90, y: 0}]);
         points1.forEach(p => drawPoint(ctx, p.x, p.y));
         points2.forEach(p => drawPoint(ctx, p.x, p.y));
         points3.forEach(p => drawPoint(ctx, p.x, p.y));

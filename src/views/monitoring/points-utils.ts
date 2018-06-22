@@ -1,9 +1,5 @@
 import Point from "views/monitoring/point";
-
-type Path = Array<{
-    x: number;
-    y: number;
-}>;
+import {Path} from "views/monitoring/i-path";
 
 export function createRunningPointsAlongPath(count: number, path: Path) {
     let points: Array<Point> = [];

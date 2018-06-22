@@ -1,9 +1,11 @@
+import {Path} from "views/monitoring/i-path";
+
 type Context = CanvasRenderingContext2D;
 
 export function drawArrow(ctx: Context, fromX, fromY, toX, toY) {
     const color = "#797979";
     const headLen = 10;
-    let angle = Math.atan2(toY - fromY, toX - fromX);
+    const angle = Math.atan2(toY - fromY, toX - fromX);
 
     // 绘制线段
     ctx.beginPath();
@@ -29,13 +31,13 @@ export function drawArrow(ctx: Context, fromX, fromY, toX, toY) {
     ctx.fill();
 }
 
-export function drawArrow2(ctx: Context, rx0, ry0, rx4, ry4) {
+export function drawArrow2(ctx: Context, x0, y0, x1, y1, duration = 2000) {
     ctx.save();
 
     // 将箭头起点平移到原点, 将箭头方向旋转向x轴正方向
-    ctx.translate(rx0, ry0);
-    const deltaY = ry4 - ry0;
-    const deltaX = rx4 - rx0;
+    ctx.translate(x0, y0);
+    const deltaY = y1 - y0;
+    const deltaX = x1 - x0;
     const angle = Math.atan2(deltaY, deltaX);
     ctx.rotate(angle);
 
@@ -43,12 +45,68 @@ export function drawArrow2(ctx: Context, rx0, ry0, rx4, ry4) {
     const len = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
     const arrowLen = 10;
     const lineLen = len - arrowLen;
-    let path2 = new Path2D(`M0 0 v 4 h ${lineLen} v 2 L${len} 0 L${lineLen} -6  v 2 h ${0 - lineLen} Z`);
+    const p2d = new Path2D(`M0 0 v 2 h ${lineLen} v 2 L${len} 0 L${lineLen} -4  v 2 h ${0 - lineLen} Z`);
 
     // 填充
-    ctx.fillStyle = "#797979";
-    ctx.fill(path2);
+    let gradient = ctx.createLinearGradient(-50,0, len + 50, 0);
+    gradient.addColorStop(0,"#797979");
+    if (duration !== 0) {
+        // const offset = Math.abs((Date.now() % (duration * 2)) - duration);
+        const left = (Date.now() - duration / 20) % duration;
+        const offset = Date.now() % duration;
+        const right = (Date.now() + duration / 20) % duration;
+        gradient.addColorStop(left / duration,"#797979");
+        gradient.addColorStop(offset / duration,"#ffffff");
+        gradient.addColorStop(right / duration,"#797979");
+    }
+    gradient.addColorStop(1,"#797979");
+    ctx.fillStyle = gradient;
+    ctx.fill(p2d);
 
+    ctx.restore();
+}
+
+export function drawPolylineArrow(ctx: Context, lineStr: string, x0, y0, x1, y1, arrowDirection, duration = 2000) {
+    let x10, y10, x11, y11;
+    if (x0 < x1) {
+        x10 = x0 - 50;
+        x11 = x1 + 50;
+    } else if (x1 < x0) {
+        x10 = x0 + 50;
+        x11 = x1 - 50;
+    }
+    if (y0 < y1) {
+        y10 = y0 - 50;
+        y11 = y1 + 50;
+    } else if (y1 < y0) {
+        y10 = y0 + 50;
+        y11 = y1 - 50;
+    }
+    let gradient = ctx.createLinearGradient(x10, y10, x11, y11);
+    gradient.addColorStop(0,"#797979");
+    if (duration !== 0) {
+        // const offset = Math.abs((Date.now() % (duration * 2)) - duration);
+        let left = (Date.now() - duration / 20) % duration;
+        let offset = Date.now() % duration;
+        let right = (Date.now() + duration / 20) % duration;
+        gradient.addColorStop(left / duration,"#797979");
+        gradient.addColorStop(offset / duration,"#ffffff");
+        gradient.addColorStop(right / duration,"#797979");
+    }
+    gradient.addColorStop(1,"#797979");
+
+    ctx.save();
+    // 填充
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 4;
+    let line = new Path2D(lineStr);
+    ctx.stroke(line);
+    ctx.lineWidth = 1;
+    ctx.fillStyle = "#797979";
+    ctx.translate(x1, y1);
+    ctx.rotate(arrowDirection);
+    let arrow = new Path2D("M10 0 L0 4 L0 -4 Z");
+    ctx.fill(arrow);
     ctx.restore();
 }
 
