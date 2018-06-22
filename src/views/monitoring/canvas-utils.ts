@@ -3,7 +3,6 @@ type Context = CanvasRenderingContext2D;
 export function drawArrow(ctx: Context, fromX, fromY, toX, toY) {
     const color = "#797979";
     const headLen = 10;
-    const lineWidth = 3;
     let angle = Math.atan2(toY - fromY, toX - fromX);
 
     // 绘制线段
@@ -11,7 +10,7 @@ export function drawArrow(ctx: Context, fromX, fromY, toX, toY) {
     ctx.moveTo(fromX, fromY);
     ctx.lineTo(toX, toY);
     ctx.strokeStyle = color;
-    ctx.lineWidth = lineWidth;
+    ctx.lineWidth = 8;
     ctx.stroke();
 
     // 绘制箭头
@@ -24,10 +23,33 @@ export function drawArrow(ctx: Context, fromX, fromY, toX, toY) {
 
     // 给箭头上色
     ctx.strokeStyle = color;
-    ctx.lineWidth = lineWidth;
+    ctx.lineWidth = 6;
     ctx.stroke();
     ctx.fillStyle = color;
     ctx.fill();
+}
+
+export function drawArrow2(ctx: Context, rx0, ry0, rx4, ry4) {
+    ctx.save();
+
+    // 将箭头起点平移到原点, 将箭头方向旋转向x轴正方向
+    ctx.translate(rx0, ry0);
+    const deltaY = ry4 - ry0;
+    const deltaX = rx4 - rx0;
+    const angle = Math.atan2(deltaY, deltaX);
+    ctx.rotate(angle);
+
+    // 用路径绘制箭头
+    const len = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const arrowLen = 10;
+    const lineLen = len - arrowLen;
+    let path2 = new Path2D(`M0 0 v 4 h ${lineLen} v 2 L${len} 0 L${lineLen} -6  v 2 h ${0 - lineLen} Z`);
+
+    // 填充
+    ctx.fillStyle = "#797979";
+    ctx.fill(path2);
+
+    ctx.restore();
 }
 
 export function drawLine(ctx: Context, fromX, fromY, toX, toY) {
@@ -79,4 +101,9 @@ export function drawText(ctx: Context, x, y, text) {
     ctx.font = "15px Arial";
     ctx.fillStyle = "#000000";
     ctx.fillText(text, x, y);
+}
+
+export function drawPoint(ctx: Context, x, y,) {
+    ctx.fillStyle = "#ffce30";
+    ctx.fillRect(x, y, 4, 4);
 }

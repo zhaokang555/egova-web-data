@@ -1,5 +1,12 @@
 .monitoring-page {
-    #data-flow {
+    & > canvas {
+        position: absolute;
+    }
+    #arrow-layer {
+        z-index: 4;
+    }
+    #bg-layer {
+        z-index: 1;
         border: 1px solid red;
     }
 }
