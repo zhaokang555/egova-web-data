@@ -5,7 +5,7 @@ export const routes =
         {
             name: "monitoring",
             path: "/",
-            component: (resolve: any) => (<any>require)(["src/views/monitoring/index.ts"], resolve)
+            component: (resolve: any) => (<any>require)(["src/views/monitoring2/index.ts"], resolve)
         },
         {
             name: "500",

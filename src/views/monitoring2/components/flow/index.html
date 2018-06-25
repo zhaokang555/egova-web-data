@@ -1,0 +1,38 @@
+<div class="flow-comp">
+    <div class="status-layer">
+        <div class="point collect" :class="{animate: animate}"></div>
+        <div class="point upload" :class="{animate: animate}"></div>
+        <div class="point record" :class="{animate: animate}"></div>
+        <div class="panel collect" :class="{animate: animate}">
+            <div class="title">尚未采集</div>
+            <div class="text">状态正常</div>
+            <div class="count">10000</div>
+        </div>
+        <div class="panel upload active" :class="{animate: animate}">
+            <div class="title">尚未上传</div>
+            <div class="text">当前数据积压过多</div>
+            <div class="count">10000</div>
+        </div>
+        <div class="panel record" :class="{animate: animate}">
+            <div class="title">尚未录入</div>
+            <div class="text">状态正常</div>
+            <div class="count">10000</div>
+        </div>
+        <div class="box not-sign-up" :class="{animate: animate}">
+            <div class="title">未注册数据量</div>
+            <div class="text">状态正常</div>
+            <div class="count">10000</div>
+        </div>
+        <div class="box history active" :class="{animate: animate}">
+            <div class="title">历史数据量</div>
+            <div class="text">数据量过多</div>
+            <div class="count">10000</div>
+        </div>
+        <div class="box today" :class="{animate: animate}">
+            <div class="title">今日数据量</div>
+            <div class="count">10000</div>
+        </div>
+    </div>
+    <canvas id="arrow-layer" width="1366" height="768"></canvas>
+    <div class="bg-layer"></div>
+</div>
