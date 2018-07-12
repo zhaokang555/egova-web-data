@@ -1,0 +1,11 @@
+<div class="left-comp">
+    <h1>今日数据详情</h1>
+    <div :class="{active: activeIndex === idx}" v-for="i, idx in list" @click="activeIndex = idx">
+        <div>{{i.name}}</div>
+        <div>推送量:</div><div>{{i.push}}</div>
+        <div>上传量:</div><div>{{i.upload}}</div>
+        <div>采集量:</div><div>{{i.collect}}</div>
+        <div>录入量:</div><div>{{i.record}}</div>
+    </div>
+</div>
+

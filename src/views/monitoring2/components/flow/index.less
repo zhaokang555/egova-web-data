@@ -1,4 +1,7 @@
 .flow-comp {
+    & > h1 {
+        z-index: 3;
+    }
     & > div, & > canvas {
         width: 100%;
         height: 100%;
@@ -136,7 +139,7 @@
         z-index: 0;
     }
     @keyframes breath-panel {
-        from {
+        0% {
             background-color: #4e8cee;
             box-shadow: .06rem .06rem .04rem #cbc2c2;
         }
@@ -144,30 +147,30 @@
             background-color: #ff8c8c;
             box-shadow: .06rem .06rem .04rem #fafafa;
         }
-        to {
+        100% {
             background-color: #4e8cee;
             box-shadow: .06rem .06rem .04rem #cbc2c2;
         }
     }
     @keyframes breath-box {
-        from {
+        0% {
             border-color: #4e8cee;
         }
         50% {
             border-color: #ff8c8c;
         }
-        to {
+        100% {
             border-color: #4e8cee;
         }
     }
     @keyframes breath-point {
-        from {
+        0% {
             background-image: url("~assets/images/monitoring/point-blue.png");
         }
         50% {
             background-image: url("~assets/images/monitoring/point-red.png");
         }
-        to {
+        100% {
             background-image: url("~assets/images/monitoring/point-blue.png");
         }
     }

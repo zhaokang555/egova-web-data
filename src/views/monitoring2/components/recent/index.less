@@ -1,0 +1,25 @@
+.recent-comp {
+    padding: 0 .38rem;
+    .btn-group {
+        position: absolute;
+        right: .5rem;
+        border: 1px solid rgba(228, 228, 228, 1);
+        color: #666666;
+        padding: .1rem .03rem;
+        font-size: .15rem;
+        span {
+            display: inline-block;
+            padding: 0 .1rem;
+            cursor: pointer;
+            &:hover, &.active {
+                color: #00CC00;
+            }
+        }
+    }
+    .e-echarts {
+        position: absolute;
+        bottom: 0;
+        width: calc(~"100% - 0.38rem * 2");
+        height: calc(~"100% - 1rem");
+    }
+}

@@ -72,7 +72,7 @@ export default class ApplicationContext extends ApplicationContextBase
      */
     protected constructor()
     {
-        super("egova-web-face");
+        super("egova-web-data");
     }
 
     /**

@@ -10,11 +10,6 @@ import {
     drawText,
     drawPoint, drawPolylineArrow
 } from "../../canvas-utils";
-import {createRunningPointsAlongPath} from "../../points-utils";
-import {loadImages} from "../../image-utils";
-
-const haikangOut = {x: 180, y: 142};
-const notCollectYetIn = {x: 212, y: 75};
 
 @component({
     template: require("./index.html")
