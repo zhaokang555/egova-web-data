@@ -1,6 +1,4 @@
-# egova-web-face
-
-> 人脸大数据视频分析系统
+# egova-web-data
 
 ## 项目结构
 ```
@@ -78,9 +76,9 @@ import lodash from "lodash";
 > 解决生产环境下url相对路径问题
 
 > 添加了项目对可替换图片的处理机制
-``` 
+```
 我们约定assets/customize下的图片资源会，转存至static/images/customize 下。所以项目图片资源组织规范应如下：
-``` 
+```
 - 所有图片资源都应该放在assets目录下，文件引用如：~assets/image/bg.png
 - 对于需求根据项目不同而替换的图片资源，应该放在assets/customize 下
 - customize 下不应该有子目录
