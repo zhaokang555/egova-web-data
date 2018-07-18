@@ -1,5 +1,8 @@
 <div class="bottom-comp">
     <h1>数据与状态对比</h1>
     <i-table :columns="columns" :data="data" border height="500"></i-table>
+    <select v-model="day">
+        <option v-for="i in days" :value="i">{{i}}</option>
+    </select>
 </div>
 

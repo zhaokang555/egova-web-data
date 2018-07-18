@@ -19,5 +19,11 @@ import BottomComp from "./components/bottom";
         "u-bottom-comp": BottomComp,
     }
 })
-export default class Monitoring extends View {
+export default class Monitoring2 extends View {
+    public company = "海康";
+
+    private onClickCompany(company: string) {
+        console.log(company);
+        this.company = company;
+    }
 }

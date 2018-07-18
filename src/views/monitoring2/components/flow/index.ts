@@ -1,4 +1,4 @@
-import {component, View} from "flagwind-web";
+import {component, View, config} from "flagwind-web";
 import TWEEN from "@tweenjs/tween.js";
 import "./index.less";
 import {
@@ -10,21 +10,70 @@ import {
     drawText,
     drawPoint, drawPolylineArrow
 } from "../../canvas-utils";
+import HasService from "views/monitoring2/has-service";
+
+interface IItem {
+    notUploadStatus: "0" | "1";
+    collectHisStatus: "0" | "1";
+    notInsertStatus: "0" | "1";
+    collectUnregStatus: "0" | "1";
+    notCollectStatus: "0" | "1";
+    company: string;
+    notUpload: number;
+    notCollect: number;
+    collectUnreg: number;
+    collectToday: number;
+    collectHis: number;
+    notInsert: number;
+}
 
 @component({
     template: require("./index.html")
 })
-export default class FlowComp extends View {
+export default class FlowComp extends HasService {
+    public list: Array<IItem> = [];
+
+    @config()
+    public company: string;
+
+    public get cur(): IItem {
+        let cur = this.list.find(e => e.company === this.company);
+        if (cur) return cur;
+        return {
+            "notUploadStatus": "1",
+            "collectHisStatus": "1",
+            "notInsertStatus": "0",
+            "collectUnregStatus": "1",
+            "notCollectStatus": "1",
+            "notUpload": 0,
+            "notCollect": 0,
+            "company": "海康",
+            "collectUnreg": 0,
+            "collectToday": 0,
+            "collectHis": 0,
+            "notInsert": 0
+        };
+    }
+
     public animate = false;
+
     private async mounted() {
+        this.initData();
+        this.initLayer();
+    }
+
+    private async initData() {
+        let {result} = await this.service.getFlow();
+        this.list = result;
+    }
+
+    private initLayer() {
         const offset = Date.now() % 3000;
         setTimeout(() => this.animate = true, 3000 - offset + 3000);
         const arrowLayer = document.getElementById("arrow-layer") as HTMLCanvasElement;
 
         const render = () => {
             this.renderArrows(arrowLayer);
-            // 如果使用了tween.js再打开, 否则会浪费性能
-            // TWEEN.update();
             requestAnimationFrame(render);
         };
         render();

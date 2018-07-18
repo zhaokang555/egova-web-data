@@ -1,143 +1,107 @@
-import {component, View} from "flagwind-web";
+import {component, View, watch} from "flagwind-web";
 import "./index.less";
+import moment from "moment";
+import HasService from "views/monitoring2/has-service";
+
+interface IItem {
+    company: string;
+    push: number;
+    collectUnreg: number;
+    collectHis: number;
+    collectToday: number;
+    collectTotal: number;
+    notCollect: number;
+    uploadSucceed: number;
+    notUpload: number;
+    dataInsert: number;
+    notInsert: number;
+}
 
 @component({
     template: require("./index.html")
 })
-export default class BottomComp extends View {
+export default class BottomComp extends HasService {
+    public days: Array<string> = [];
+    public day = moment().format("YYYYMMDD");
     public columns = [
         {
             title: "厂家",
             key: "company",
             align: "center",
-            // width: 120,
         },
         {
             title: "推送量",
             key: "push",
             align: "center",
-            // width: 120,
         },
         {
             title: "未注册",
-            key: "notRegistered",
+            key: "collectUnreg",
             align: "center",
-            // width: 120,
         },
         {
             title: "历史数据量",
-            key: "history",
+            key: "collectHis",
             align: "center",
-            // width: 120,
         },
         {
             title: "当日数据量",
-            key: "today",
+            key: "collectToday",
             align: "center",
-            // width: 120,
         },
         {
             title: "采集量",
-            key: "collected",
+            key: "collectTotal",
             align: "center",
-            // width: 120,
         },
         {
             title: "未采集",
-            key: "notCollected",
+            key: "notCollect",
             align: "center",
-            // width: 120,
         },
         {
             title: "已上传",
-            key: "uploaded",
+            key: "uploadSucceed",
             align: "center",
-            // width: 120,
         },
         {
             title: "未上传",
-            key: "notUploaded",
+            key: "notUpload",
             align: "center",
-            // width: 120,
         },
         {
             title: "录入",
-            key: "recorded",
+            key: "dataInsert",
             align: "center",
-            // width: 120,
         },
         {
             title: "未录入",
-            key: "notRecorded",
+            key: "notInsert",
             align: "center",
-            // width: 120,
         },
     ];
-    public data = [
-        {
-            key: 0,
-            company: "海康",
-            push: 10000,
-            notRegistered: 10000,
-            history: 10000,
-            today: 10000,
-            collected: 10000,
-            notCollected: 10000,
-            uploaded: 10000,
-            notUploaded: 10000,
-            recorded: 10000,
-            notRecorded: 10000,
-            cellClassName: {
-                notRegistered: "red",
-            }
-        },
-        {
-            key: 0,
-            company: "大华",
-            push: 10000,
-            notRegistered: 10000,
-            history: 10000,
-            today: 10000,
-            collected: 10000,
-            notCollected: 10000,
-            uploaded: 10000,
-            notUploaded: 10000,
-            recorded: 10000,
-            notRecorded: 10000,
-        },
-        {
-            key: 0,
-            company: "宇视",
-            push: 10000,
-            notRegistered: 10000,
-            history: 10000,
-            today: 10000,
-            collected: 10000,
-            notCollected: 10000,
-            uploaded: 10000,
-            notUploaded: 10000,
-            recorded: 10000,
-            notRecorded: 10000,
-        },
-        {
-            key: 0,
-            company: "海信",
-            push: 10000,
-            notRegistered: 10000,
-            history: 10000,
-            today: 10000,
-            collected: 10000,
-            notCollected: 10000,
-            uploaded: 10000,
-            notUploaded: 10000,
-            recorded: 10000,
-            notRecorded: 10000,
-            cellClassName: {
-                history: "red",
-                notCollected: "red",
-                notUploaded: "red",
-                notRecorded: "red",
-            }
-        },
-    ];
+    public data: Array<IItem> = [];
+
+    @watch("day")
+    private onDayChange(nv) {
+        this.fetchData(nv);
+    }
+    private mounted() {
+        this.initUI();
+        this.fetchData(this.day);
+    }
+    private initUI() {
+        for (let i = 0; i < 7; ++i) {
+            this.days.push(moment().subtract(i, "days").format("YYYYMMDD"));
+        }
+    }
+    private async fetchData(day: string) {
+        try {
+            let {result} = await this.service.getTableData(day);
+            this.data = result;
+        } catch (e) {
+            console.log(e);
+            this.$notice.error({title: "获取表格数据失败"});
+        }
+    }
 }

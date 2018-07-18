@@ -6,7 +6,7 @@ export const globalSetting = global.faceSetting;
  * 后端地址
  * @type {string}
  */
-export const baseUrl = debug ? "http://192.168.101.199:8097" : "http://192.168.101.24:8099"; // http://192.168.101.27:8080
+export const baseUrl = "http://192.168.101.27:8889"; // http://192.168.101.27:8080
 
 export const uploadUrl = `${baseUrl}/unity/attachment/upload`;
 /**
