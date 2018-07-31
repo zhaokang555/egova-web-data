@@ -2,6 +2,7 @@ import {component, View, watch} from "flagwind-web";
 import "./index.less";
 import moment from "moment";
 import HasService from "views/monitoring2/has-service";
+import {baseUrl} from "src/settings";
 
 interface IItem {
     company: string;
@@ -81,6 +82,9 @@ export default class BottomComp extends HasService {
         },
     ];
     public data: Array<IItem> = [];
+    public get downloadUrl() {
+        return baseUrl + "/datastream/export?datastr" + this.day;
+    }
 
     @watch("day")
     private onDayChange(nv) {

@@ -4,5 +4,6 @@
     <select v-model="day">
         <option v-for="i in days" :value="i">{{i}}</option>
     </select>
+    <a :href="downloadUrl" class="export">导出</a>
 </div>
 

@@ -1,11 +1,12 @@
 /**
  *  注意: 以下配置会覆盖默认配置
  */
-window.faceSetting = {
+window.dataSetting = {
     isDev: true,
     isOnline: true,
-    prefix: "face/",
+    prefix: "data/",
     mapType:"arcgis",
+    baseUrl: "http://192.168.101.27:8889",
 };
 
 window.arcgisSetting = {
