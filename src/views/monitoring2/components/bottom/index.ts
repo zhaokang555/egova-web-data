@@ -83,7 +83,7 @@ export default class BottomComp extends HasService {
     ];
     public data: Array<IItem> = [];
     public get downloadUrl() {
-        return baseUrl + "/datastream/export?datastr" + this.day;
+        return baseUrl + "/datastream/export?datastr=" + this.day;
     }
 
     @watch("day")

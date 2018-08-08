@@ -20,6 +20,6 @@ export default class Service extends ServiceBase {
     }
 
     public getTableData(day: string) {
-        return this._get<{ result: any }>("/datastream/detail?dataStr=" + day);
+        return this._get<{ result: any }>("/datastream/detail?datastr=" + day);
     }
 }

@@ -2,7 +2,7 @@
  *  注意: 以下配置会覆盖默认配置
  */
 window.dataSetting = {
-    isDev: true,
+    isDev: false,
     isOnline: true,
     prefix: "data/",
     mapType:"arcgis",
